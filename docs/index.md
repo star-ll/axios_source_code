@@ -11,10 +11,9 @@ Axios 是一个基于 *[promise](https://javascript.info/promise-basics)* 网络
 本项目详细讲解Core、Helpers、Adapters、Cancel四大模块，并将针对axios以下内容进行重点解析：
 
 - 拦截器的实现
-- 基于xhr和http实现网络请求
+- xhr和http的封装
 - HTTP响应结果Promise化
 - Axios构造函数
-- 取消请求
 
 ## 目录
 
