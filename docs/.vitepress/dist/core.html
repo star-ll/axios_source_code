@@ -218,7 +218,7 @@
 <span class="line"><span style="color:#F07178;">    </span><span style="color:#89DDFF;">&quot;</span><span style="color:#C3E88D;">response</span><span style="color:#89DDFF;">&quot;</span><span style="color:#F07178;">:</span><span style="color:#89DDFF;">{</span><span style="color:#89DDFF;">&quot;</span><span style="color:#F07178;">handlers</span><span style="color:#89DDFF;">&quot;</span><span style="color:#89DDFF;">:</span><span style="color:#F07178;">[]</span><span style="color:#89DDFF;">}</span></span>
 <span class="line"><span style="color:#89DDFF;">}</span></span>
 <span class="line"></span></code></pre></div><p>再来看<code>InterceptorManager.prototype.forEach(fn)</code>函数，这个API是内部调用的。它的作用是遍历<code>handlers</code>中所有的拦截器函数对象，并将它们作为参数传入回调<code>fn</code>函数中执行。在上面的<a href="#axios-prototype-request">Axios.prototype.request()</a>函数中调用了该方法将请求拦截器对象的<code>fulfilled</code>回调和<code>rejected</code>回调添加到<code>chain</code>数组中。</p></div></div></main><!--[--><!--]--><!----><!--[--><!--]--></div></div></div></div></div><!----><!--[--><!--]--></div></div>
-    <script>__VP_HASH_MAP__ = JSON.parse("{\"core.md\":\"11a1997d\",\"helpers.md\":\"4c732844\",\"index.md\":\"1d9ab653\"}")</script>
+    <script>__VP_HASH_MAP__ = JSON.parse("{\"adapters.md\":\"e8327c3d\",\"core.md\":\"11a1997d\",\"helpers.md\":\"2c4d2289\",\"index.md\":\"d2e59a9a\"}")</script>
     <script type="module" async src="/assets/app.c8f60d07.js"></script>
     
   </body>
