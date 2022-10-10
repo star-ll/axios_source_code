@@ -34,13 +34,24 @@ http.createServer((req, res) => {
 		if (req.url.indexOf("/cors") > -1) {
 			res.setHeader("access-control-allow-origin", "localhost:3000");
 			res.setHeader("access-control-allow-headers", "Authorization");
-			res.setHeader("access-control-allow-method", ["POST", "GET"]);
+			res.setHeader("access-control-allow-methods", "GET,POST");
 			res.setHeader("Access-Control-Allow-Credentials", true);
 		}
 
 		res.end("axios");
 	} else if (/\.html$/.test(req.url)) {
 		res.end(fs.readFileSync(path.join(__dirname, req.url)).toString());
+	} else if (req.url.indexOf("/download") > -1) {
+		let text = "";
+		for (let i = 0; i < 1000000; i++) {
+			text += "a=1\n";
+		}
+		res.writeHead(200, {
+			"Content-Type": "application/octet-stream",
+			"Content-Disposition": "attachment; filename=res_file.txt",
+			"content-length": text.length,
+		});
+		res.end(text);
 	} else {
 		res.statusCode = 404;
 		res.end("Not Founded");

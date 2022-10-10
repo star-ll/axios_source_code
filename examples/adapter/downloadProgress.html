@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function xhrAdapter(config) {
+        return new Promise((resolve, reject) => {
+            var request = new XMLHttpRequest()
+
+            const fullPathAndParams = config.baseURL + config.url
+
+            // 三个参数分别表示http方法，请求url，是否异步
+            request.open(config.method.toUpperCase(), fullPathAndParams, true);
+
+            var requestData = config.data;
+            var requestHeaders = config.headers
+
+            request.onreadystatechange = function () {
+                if (this.readyState !== 4) {
+                    return;
+                }
+
+                var response = {
+                    data: !config.responseType || config.responseType === 'text' ? request
+                        .responseText : request.response,
+                    status: request.status,
+                    statusText: request.statusText,
+                    headers: request.getAllResponseHeaders(),
+                    config: config,
+                    request: request
+                };
+                resolve(response)
+                request = null;
+            }
+            request.onerror = function handleError() {
+                reject({
+                    message: 'Network Error',
+                    config,
+                    request
+                });
+
+                request = null;
+            };
+            request.ontimeout = function handleTimeout() {
+
+                reject({
+                    message: 'Request timeout',
+                    config,
+                    request
+                });
+
+                request = null;
+            };
+            request.onabort = function handleAbort() {
+                if (!request) {
+                    return;
+                }
+
+                reject({
+                    message: 'Request aborted',
+                    config,
+                    request
+                });
+
+                request = null;
+            };
+
+
+            if (typeof config.onDownloadProgress === 'function') {
+                request.addEventListener('progress', config.onDownloadProgress);
+            }
+
+
+            if (typeof config.onUploadProgress === 'function' && request.upload) {
+                request.upload.addEventListener('progress', config.onUploadProgress);
+            }
+
+            // 发送请求
+            request.send(requestData)
+        })
+    }
+
+    xhrAdapter({
+        method: "get",
+        baseURL: "http://localhost:3000",
+        url: "/download",
+        onDownloadProgress(e) {
+            console.log(e, e.loaded / e.total * 100 + '%');
+        }
+
+    })
+</script>
+
+</html>
