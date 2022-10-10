@@ -7,6 +7,7 @@ export default {
 	themeConfig: {
 		outline: "deep",
 		outlineTitle: "目录",
+		// ignoreDeadLinks: true,
 		nav: [
 			{ text: "指南", link: "/" },
 			{ text: "博客", link: "http://docs.yujin123.cn" },

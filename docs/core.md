@@ -21,7 +21,7 @@ axios.get()
 function createInstance(defaultConfig) {
 	var context = new Axios(defaultConfig);
 	var instance = bind(Axios.prototype.request, context);
-  // ...
+    // ...
 	return instance;
 }
 
@@ -32,7 +32,7 @@ var axios = createInstance(defaults);
 axios.Axios = Axios;
 ```
 
-这里我们暂时不去关注`bind`函数内部逻辑，只需要了解Axios构造函数的逻辑。
+这里我们暂时不去关注`bind`函数内部逻辑，它的作用类似于`fn.bind()`函数。
 
 ### Axios构造函数
 
