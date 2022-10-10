@@ -250,3 +250,4 @@ function xhrAdapter(config) {
 ### HTTP响应结果Promise化
 
 axios一个很大的亮点在于它将xhr响应结果原本的异步回调的风格改为了Promise风格，使得可以使用Promise的方式来操作HTTP请求的响应结果。
+

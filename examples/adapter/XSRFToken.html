@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>填写name和value，点击添加按钮，js会将其添加到document.cookie中，然后打开浏览器开发者工具-网络，点击发送请求，查看该条请求请求头cookie字段</p>
+    <input id="name" type="text" placeholder="name" />
+    <input id="value" type="text" placeholder="value" />
+    <button id="add">添加cookie</button>
+    <button id="send">发送请求</button>
+</body>
+<script>
+    function xhrAdapter(config) {
+        const request = new XMLHttpRequest()
+
+        const fullPathAndParams = config.baseURL + config.url
+
+        // 三个参数分别表示http方法，请求url，是否异步
+        request.open(config.method.toUpperCase(), fullPathAndParams, true);
+
+        var requestData = config.data;
+        var requestHeaders = config.headers
+
+        // 处理basic
+        if (config.auth) {
+            var username = config.auth.username || '';
+            var password = config.auth.password || '';
+            requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password)
+        }
+
+        // HTTP Headers
+        if ('setRequestHeader' in request) {
+            for (const [key, val] of Object.entries(requestHeaders)) {
+                if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+                    // 如果data为空，则移除content-type字段
+                    delete requestHeaders[key];
+                } else {
+                    // 否则添加到请求头
+                    request.setRequestHeader(key, val);
+                }
+            }
+        }
+
+        if (config.withCredentials != null) {
+            request.withCredentials = !!config.withCredentials;
+        }
+
+        if (config.xsrfCookieName != null) {
+            // 见Helpers-cookie
+            // var cookies = require('./../helpers/cookies');
+            var cookies = {
+                read(name) {
+                    var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+                    return (match ? decodeURIComponent(match[3]) : null);
+                },
+            }
+
+            // Add xsrf header
+            var xsrfValue = (config.withCredentials || isURLSameOrigin(fullPath)) && config.xsrfCookieName ?
+                cookies.read(config.xsrfCookieName) :
+                undefined;
+
+            if (xsrfValue) {
+                requestHeaders[config.xsrfHeaderName] = xsrfValue;
+            }
+        }
+
+        request.onreadystatechange = function () {
+            if (this.readyState !== 4) {
+                return;
+            }
+        }
+
+        // 发送请求
+        request.send(requestData)
+    }
+</script>
+
+<script>
+    const sendButton = document.querySelector("#send")
+    const addButton = document.querySelector("#add")
+
+    addButton.addEventListener('click', () => {
+        const name = document.querySelector("#name").value
+        const value = document.querySelector("#value").value
+
+        document.cookie = `${name}=${value};path=/`
+    })
+    sendButton.addEventListener("click", () => {
+        xhrAdapter({
+            method: "get",
+            baseURL: "http://localhost:3000",
+            url: "/api/cors",
+            headers: {},
+            withCredentials: true
+        })
+    })
+</script>
+
+</html>
