@@ -6,15 +6,21 @@
 
 [在线阅读](http://axios.yujin123.cn/)
 
+## Examples
+
+```shell
+npm run examples
+```
+
 ## 进度
 
 **源码：**
 
-- introduction（计划中）
-- [core](/core)（更新中）
-- [helpers](/helpers)
-- [adapters](/adapters)
-- cancel（计划中）
+- introduction（更新中）
+- core（更新中）
+- helpers
+- adapters
+- cancel
 
 **重点解析：**
 
