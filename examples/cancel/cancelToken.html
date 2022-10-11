@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function xhrAdapter(config) {
+        let request = new XMLHttpRequest()
+        request.open(config.method, config.url, true)
+
+        if (config.cancelToken) {
+            config.cancelToken.promise.then(() => {
+                if (!request) {
+                    return;
+                }
+
+                request.abort();
+                request = null
+            })
+        }
+
+        request.send(null)
+    }
+
+    function CancelToken(executor) {
+        let resolvePromise;
+        this.promise = new Promise((resolve) => {
+            resolvePromise = resolve
+        })
+
+        // 取消请求的reason，可选
+        executor((reason) => {
+            if (this.reason) {
+                return;
+            }
+
+            this.reason = {
+                message: reason
+            }
+            resolvePromise(this.reason)
+        })
+    }
+
+
+    CancelToken.source = function source() {
+        var cancel;
+        var token = new CancelToken(function executor(c) {
+            cancel = c;
+        });
+        return {
+            token: token,
+            cancel: cancel
+        };
+    };
+
+
+    // 第一种方式
+    // let cancel;
+    // xhrAdapter({
+    //     url: "/",
+    //     method: "GET",
+    //     cancelToken: new CancelToken((resolve) => {
+    //         cancel = resolve
+    //     })
+    // })
+
+    // cancel()
+
+    // 第二种方式
+    // const source = CancelToken.source()
+    // xhrAdapter({
+    //     url: "/",
+    //     method: "GET",
+    //     cancelToken: source.token
+    // })
+
+    // source.cancel()
+</script>
+
+</html>

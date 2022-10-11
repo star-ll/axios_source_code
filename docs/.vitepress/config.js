@@ -5,7 +5,7 @@ export default {
 	title: "axios源码分析",
 	description: "axios源码深入浅出",
 	themeConfig: {
-		outline: "deep",
+		outline: [1, 3],
 		outlineTitle: "目录",
 		// ignoreDeadLinks: true,
 		nav: [

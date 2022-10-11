@@ -25,6 +25,6 @@ Axios 是一个基于 *[promise](https://javascript.info/promise-basics)* 网络
 
 - [adapters](/adapters)
 
-- cancel
+- [cancel](/cancel)
 
   
